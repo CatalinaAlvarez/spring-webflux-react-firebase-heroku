@@ -2,8 +2,12 @@ package co.com.sofka.questions.routers;
 
 import co.com.sofka.questions.model.AnswerDTO;
 import co.com.sofka.questions.model.QuestionDTO;
+import co.com.sofka.questions.model.UserDTO;
 import co.com.sofka.questions.usecases.answers.AddAnswerUseCase;
 import co.com.sofka.questions.usecases.questions.*;
+import co.com.sofka.questions.usecases.user.CreateUserUseCase;
+import co.com.sofka.questions.usecases.user.GetUserUseCase;
+import co.com.sofka.questions.usecases.user.UpdateUserUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -110,6 +114,45 @@ public class QuestionRouter {
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(findAllByCategoryUseCase.apply(request.pathVariable("category")), QuestionDTO.class))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> createUser(CreateUserUseCase createUseCase) {
+        Function<UserDTO, Mono<ServerResponse>> executor = userDTO ->  createUseCase.apply(userDTO)
+                .flatMap(result -> ServerResponse.ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .bodyValue(result));
+
+        return route(
+                POST("/createUser").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(UserDTO.class).flatMap(executor)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> updateUser(UpdateUserUseCase updateUseCase) {
+        Function<UserDTO, Mono<ServerResponse>> executor = userDTO -> updateUseCase.apply(userDTO)
+                .flatMap(result-> ServerResponse.ok()
+                        .contentType(MediaType.TEXT_PLAIN)
+                        .bodyValue(result));
+
+        return route(
+                PUT("/updateUser").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(UserDTO.class).flatMap(executor)
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getUser(GetUserUseCase getUseCase) {
+        return route(
+                GET("/getUser/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getUseCase.apply(
+                                        request.pathVariable("id")),
+                                UserDTO.class
+                        ))
         );
     }
 }
