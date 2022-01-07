@@ -12,3 +12,9 @@ min-height: calc(100vh - 85px);
   box-sizing:content-box;
 
 }
+
+.logo{
+  width: 70px;
+  display: flex;
+  align-items: flex-end;
+}
