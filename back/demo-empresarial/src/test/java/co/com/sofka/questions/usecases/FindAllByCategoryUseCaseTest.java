@@ -2,6 +2,7 @@ package co.com.sofka.questions.usecases;
 
 import co.com.sofka.questions.collections.Question;
 import co.com.sofka.questions.reposioties.QuestionRepository;
+import co.com.sofka.questions.usecases.questions.FindAllByCategoryUseCase;
 import co.com.sofka.questions.utils.Category;
 import co.com.sofka.questions.utils.Type;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)

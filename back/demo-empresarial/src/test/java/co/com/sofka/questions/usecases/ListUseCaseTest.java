@@ -1,8 +1,8 @@
 package co.com.sofka.questions.usecases;
 
 import co.com.sofka.questions.collections.Question;
-import co.com.sofka.questions.model.QuestionDTO;
 import co.com.sofka.questions.reposioties.QuestionRepository;
+import co.com.sofka.questions.usecases.questions.ListUseCase;
 import co.com.sofka.questions.utils.Category;
 import co.com.sofka.questions.utils.Type;
 import org.junit.jupiter.api.BeforeEach;
