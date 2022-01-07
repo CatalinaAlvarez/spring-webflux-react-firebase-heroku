@@ -1,7 +1,8 @@
 import { useDispatch,useSelector } from "react-redux"
 import { useEffect } from "react"
-import { getUserQuestion } from "../../app/middleware/payloadQuestions"
+import { getUserQuestion , deleteQuestion} from "../../app/middleware/payloadQuestions"
 import QuestionsPrivate from "../../components/private/QuestionsPrivate"
+
 
 
  
@@ -19,11 +20,16 @@ const MyQuestions = () => {
        console.log(myQuestions)
     },[])
 
+    const onDelete = (id) =>{
+        dispatch(deleteQuestion(id));
+    }
+
+
     return (
         <section>
         {myQuestions && myQuestions.map((question)=>{
             return(
-                <QuestionsPrivate key={question.id} question={question}/>
+                <QuestionsPrivate key={question.id} question={question} onDelete={onDelete}/>
                 )
         })}
         
